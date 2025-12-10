@@ -1,0 +1,34 @@
+#include <iostream>
+#include <cctype>
+#include <math.h>
+using namespace std;
+
+int main()
+{
+    string N;
+    int B;
+    cin >> N >> B;
+
+    int length = N.length();
+
+    int decimalValue = 0;
+
+    for(int i=0;i<length;i++)
+    {
+        char ch = N[i];
+        int digit;
+        if(isdigit(ch))
+        {
+            digit = ch - '0';
+        }
+        else
+        {
+            digit = ch - 'A' + 10;
+        }
+        decimalValue += + pow(B, length - i - 1) * digit;
+    }
+
+    cout << decimalValue;
+
+    return 0;
+}
