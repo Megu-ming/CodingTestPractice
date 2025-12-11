@@ -1,0 +1,50 @@
+/*
+입력
+첫째 줄에 색종이의 수가 주어진다. 
+이어 둘째 줄부터 한 줄에 하나씩 색종이를 붙인 위치가 주어진다. 
+색종이를 붙인 위치는 두 개의 자연수로 주어지는데 첫 번째 자연수는 색종이의 왼쪽 변과 도화지의 왼쪽 변 사이의 거리이고, 
+두 번째 자연수는 색종이의 아래쪽 변과 도화지의 아래쪽 변 사이의 거리이다. 
+색종이의 수는 100 이하이며, 색종이가 도화지 밖으로 나가는 경우는 없다
+
+출력
+첫째 줄에 색종이가 붙은 검은 영역의 넓이를 출력한다.
+
+1. 아이디어
+전체 도화지를 bool[100][100]으로 두고 해당 위치에 색종이가 올라가있다면 true로 바꿔주고
+전체 도화지를 순회하며 true면 Count를 증가한다.
+*/
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+    int amount;
+    cin>>amount;
+    vector<vector<int>> pos(amount, vector<int>(2));
+
+    bool board[100][100] = {false};
+
+    for(int i = 0; i < amount; i++)
+    {
+        cin >> pos[i][0] >> pos[i][1];
+    }
+
+    for(int i=0; i< amount;i++)
+    {
+        for(int x = pos[i][0]; x<pos[i][0]+10;x++)
+            for(int y = pos[i][1];y<pos[i][1]+10;y++)
+                board[x][y] = true;
+    }
+
+    int size=0;
+    for(int i=0;i<100;i++)
+        for(int j=0;j<100;j++)
+            if(board[i][j] == true)
+                size++;
+
+    cout<<size;
+
+    return 0;
+}

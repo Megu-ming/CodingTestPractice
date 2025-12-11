@@ -1,0 +1,35 @@
+/*
+1. 아이디어
+입력으로 들어온 문자를 하나씩 검사하면서 Count 증가
+만약 '-' 이거나 '='이면 앞 단어 check해서 Count증가하지 않음
+
+*/
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    string cAlphabet[] = {"c=","c-","dz=","d-","lj","nj","s=","z="};
+    string input;
+    cin>>input;
+    int count = input.length();
+
+    for(auto c : cAlphabet)
+    {
+        int cCount=0;
+        size_t pos=0;
+        while((pos = input.find(c, pos)) != string::npos)
+        {
+            cCount++;
+            pos+=c.length();
+        }
+
+        count -= cCount;
+    }
+
+    cout<< count;
+
+    return 0;
+}

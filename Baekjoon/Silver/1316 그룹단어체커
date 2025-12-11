@@ -1,0 +1,53 @@
+/*
+1. 아이디어
+입력으로 들어온 단어를 for문 돌림
+문자가 이미 있었는 지 체크한다.
+만약 한번이라도 있던 문자가 다시 들어온다면 Counting하지 않는다.
+*/
+
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+int main()
+{
+    int N=0;
+    int answer;
+    cin>>N;
+    vector<string> inputSentences;
+    string input;
+    for(int i =0;i< N;i++)
+    {
+        cin >> input;
+        inputSentences.push_back(input);
+    }
+
+    unordered_map<char, bool> checker;
+    answer = N;
+
+    for(auto input : inputSentences)
+    {
+        char tmp = 0;
+        checker.clear();
+
+        for(char c : input)
+        {
+            if(tmp == 0 || (c != tmp && !checker[c]))
+            {
+                tmp = c;
+                checker[c] = true;
+                continue;
+            }
+
+            if(c!=tmp && checker[c])
+            {
+                answer--;
+                break;
+            }
+        }
+    }
+
+    cout<<answer;
+
+    return 0;
+}
