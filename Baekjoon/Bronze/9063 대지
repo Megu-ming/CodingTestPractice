@@ -1,0 +1,53 @@
+/*
+문제
+한 변의 길이가 1인 정사각형을 아래 그림과 같이 겹치지 않게 빈틈없이 계속 붙여 나간다. 
+가장 아랫부분의 정사각형이 n개가 되었을 때, 실선으로 이루어진 도형의 둘레의 길이를 구하시오.
+
+입력
+첫째 줄에는 점의 개수 N (1 ≤ N ≤ 100,000) 이 주어진다. 
+이어지는 N 줄에는 각 점의 좌표가 두 개의 정수로 한 줄에 하나씩 주어진다. 
+각각의 좌표는 -10,000 이상 10,000 이하의 정수이다. 
+
+출력
+첫째 줄에 N 개의 점을 둘러싸는 최소 크기의 직사각형의 넓이를 출력하시오. 
+
+아이디어
+사각형의 가로 길이 = (maxX - minX)
+사각형의 세로 길이 = (maxY - minY)
+*/
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int N;
+    cin>>N;
+
+    if(N < 2)
+    {
+        cout<<0;
+        return 0;
+    }
+    
+    int x,y;
+    int minX = 10001;
+    int maxX = -10001;
+    int minY = 10001;
+    int maxY = -10001;
+    for(int i=0;i<N;i++)
+    {
+        cin>>x>>y;
+        if(x<minX) minX = x;
+        if(x>maxX) maxX = x;
+        if(y<minY) minY = y;
+        if(y>maxY) maxY = y;
+    }
+
+    int width = maxX - minX;
+    int height = maxY - minY;
+    int size = width * height;
+    cout<<size;
+    
+    return 0;
+}
