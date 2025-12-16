@@ -31,5 +31,7 @@ int main()
     if(min > h - y)
         min = h - y;
     
+    cout << min;
+    
     return 0;
 }

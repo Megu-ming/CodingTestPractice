@@ -23,7 +23,7 @@ using namespace std;
 string Triangle(int a, int b, int c)
 {
     if(a + b + c != 180)
-        return "error";
+        return "Error";
     if(a == b && a == c)
         return "Equilateral";
     if(a == b || a == c || b == c)
