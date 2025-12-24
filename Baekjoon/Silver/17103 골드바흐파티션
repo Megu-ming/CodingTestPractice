@@ -1,0 +1,72 @@
+/*
+문제
+골드바흐의 추측: 2보다 큰 짝수는 두 소수의 합으로 나타낼 수 있다.
+짝수 N을 두 소수의 합으로 나타내는 표현을 골드바흐 파티션이라고 한다. 
+짝수 N이 주어졌을 때, 골드바흐 파티션의 개수를 구해보자. 두 소수의 순서만 다른 것은 같은 파티션이다.
+
+입력
+첫째 줄에 테스트 케이스의 개수 T (1 ≤ T ≤ 100)가 주어진다. 
+각 테스트 케이스는 한 줄로 이루어져 있고, 정수 N은 짝수이고, 2 < N ≤ 1,000,000을 만족한다.
+
+출력
+각각의 테스트 케이스마다 골드바흐 파티션의 수를 출력한다.
+
+시간제한 : 0.5초
+
+8 = 3 + 5
+10 = 3 + 7 / 5 + 5
+n = a + b
+for i=3 ~ n/2
+    i 가 소수라면?
+    n - a 즉, b도 소수인지 체크
+    -> true : count ++
+    -> false : continue;
+*/
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int T;
+    cin >> T;
+
+    const int MAXN = 1000000;
+    vector<bool> isPrime(MAXN+1, true);
+    isPrime[0] = isPrime[1] = false;
+
+    // 소수판정
+    for(int i =2; i*i<=MAXN;++i)
+    {
+        if(!isPrime[i]) continue;
+        for(int j = i*i; j<=MAXN; j+=i)
+            isPrime[j]=false;
+    }
+
+    int N;
+    while(T--)
+    {
+        cin >> N;
+
+        if(N == 4)
+        {
+            cout << 1 << "\n";
+            continue;
+        }
+
+        int count = 0;
+        for(int i =3;2*i<=N;i+=2)
+        {
+            if(isPrime[i] && isPrime[N-i])
+                count++;
+        }
+
+        cout<< count << "\n";
+    }
+
+    return 0;
+}
