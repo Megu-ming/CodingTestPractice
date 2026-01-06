@@ -1,0 +1,63 @@
+/*
+문제
+N-Queen 문제는 크기가 N × N인 체스판 위에 퀸 N개를 서로 공격할 수 없게 놓는 문제이다.
+
+N이 주어졌을 때, 퀸을 놓는 방법의 수를 구하는 프로그램을 작성하시오.
+
+입력
+첫째 줄에 N이 주어진다. (1 ≤ N < 15)
+
+출력
+첫째 줄에 퀸 N개를 서로 공격할 수 없게 놓는 경우의 수를 출력한다.
+*/
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void dfs(int row, int N, vector<bool>& colused, vector<bool>& dig1used, vector<bool>& dig2used, int& ans)
+{
+    if(row == N){
+        ans++;
+        return;
+    }
+
+    for(int col = 0; col < N; col++){
+        int d1 = row + col;
+        int d2 = row - col + (N-1);
+
+        if(colused[col] || dig1used[d1] || dig2used[d2]) 
+            continue;
+        
+        colused[col] = true;
+        dig1used[d1] = true;
+        dig2used[d2] = true;
+
+        dfs(row+1,N,colused,dig1used,dig2used,ans);
+
+        colused[col] = false;
+        dig1used[d1] = false;
+        dig2used[d2] = false;
+    }
+
+}
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N;
+    cin >> N;
+
+    vector<bool> colused(N, false);
+    vector<bool> dig1used(2*N, false);
+    vector<bool> dig2used(2*N, false);
+    int ans = 0;
+
+    dfs(0, N, colused, dig1used, dig2used, ans);
+
+    cout << ans;
+
+    return 0;
+}

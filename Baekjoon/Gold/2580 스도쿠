@@ -1,0 +1,105 @@
+/*
+문제
+1. 각각의 가로줄과 세로줄에는 1부터 9까지의 숫자가 한 번씩만 나타나야 한다.
+2. 굵은 선으로 구분되어 있는 3x3 정사각형 안에도 1부터 9까지의 숫자가 한 번씩만 나타나야 한다.
+
+입력
+아홉 줄에 걸쳐 한 줄에 9개씩 게임 시작 전 스도쿠판 각 줄에 쓰여 있는 숫자가 한 칸씩 띄워서 차례로 주어진다.
+스도쿠 판의 빈 칸의 경우에는 0이 주어진다. 
+스도쿠 판을 규칙대로 채울 수 없는 경우의 입력은 주어지지 않는다.
+
+출력
+모든 빈 칸이 채워진 스도쿠 판의 최종 모습을 아홉 줄에 걸쳐 한 줄에 9개씩 한 칸씩 띄워서 출력한다.
+스도쿠 판을 채우는 방법이 여럿인 경우는 그 중 하나만을 출력한다.
+
+아이디어
+조건
+1. 한 행에 1~9 한번씩
+2. 한 열에 1~9 한번씩
+3. 3*3 정사각형 안에도 1~9 한번씩 << 이게 문제네
+*/
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+bool check(int row, int col, int brow, int bcol, vector<vector<int>>& arr)
+{
+    // 행에 같은 값이 있는가?
+    for(int c = 0; c<9;++c){
+        if(c != col && arr[row][c] == arr[row][col])
+            return false;
+    }
+    // 열에 같은 값이 있는가?
+    for(int r = 0; r <9;++r){
+        if(r != row && arr[r][col] == arr[row][col])
+            return false;
+    }
+    // box에 같은 값이 있는가?
+    for(int r = brow; r < brow + 3;++r){
+        for(int c = bcol; c <bcol+3;++c){
+            if(!(r == row && c == col) && arr[r][c] == arr[row][col])
+                return false;
+        }
+    }
+    return true;
+}
+bool solved = false;
+
+void dfs(int blank, vector<vector<int>>& arr, vector<pair<int,int>>& blanks)
+{
+    if(blank == (int)blanks.size()){
+        for(size_t r = 0; r<arr.size(); ++r){
+            for(size_t c = 0; c < arr.size(); ++c){
+                cout << arr[r][c] <<" ";
+            }
+            cout << "\n";
+        }
+        solved = true;
+        return;
+    }
+    if(solved) return;
+
+    auto point = blanks[blank];
+    // 현재 빈칸의 행, 열
+    int row = point.second;
+    int col = point.first;
+    // 빈칸이 속한 box의 시작 위치
+    int boxrow = (row/3) * 3;
+    int boxcol = (col/3) * 3;
+
+    // 빈칸에 들어갈 수 있는 수
+    for(int num = 1; num <=9; ++num){
+        arr[row][col] = num;
+        // 가능한가?
+        //     arr[row][col] = num;
+        //     dfs(blank+1, arr, blanks) 다음 빈칸 채우기
+        //     arr[row][col] = 0;
+        if(check(row,col,boxrow,boxcol,arr))
+        {
+            dfs(blank +1, arr, blanks);
+        }
+        arr[row][col] = 0;
+    }
+}
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    vector<vector<int>> arr(9, vector<int>(9));
+    vector<pair<int,int>> blanks;
+
+    for(int y = 0; y < 9; ++y){
+        for(int x = 0; x < 9; ++x){
+            cin >> arr[y][x];
+            if(arr[y][x] == 0)
+                blanks.push_back(make_pair(x,y));
+        }
+    }
+
+    dfs(0, arr, blanks);
+
+    return 0;
+}
