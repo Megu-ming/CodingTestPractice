@@ -29,7 +29,7 @@ using namespace std;
 
 int N;
 
-void div(vector<vector<int>>& board, int cursize, int x, int y, int& blue, int& white){
+void div(const vector<vector<int>>& board, int cursize, int x, int y, int& blue, int& white){
     int color = board[x][y];
     bool same = true;
 
@@ -74,7 +74,7 @@ int main()
     int white = 0;
     div(board, N, 0, 0, blue, white);
 
-    cout << blue << "\n" << white;
+    cout << white << "\n" << blue;
 
     return 0;
 }
