@@ -1,0 +1,53 @@
+/*
+문제
+자연수 N과 정수 K가 주어졌을 때 이항 계수 (N K)를 1,000,000,007로 나눈 나머지를 구하는 프로그램을 작성하시오.
+
+입력
+첫째 줄에 N과 K가 주어진다. (1 ≤ N ≤ 4,000,000, 0 ≤ K ≤ N)
+
+출력
+(N K)를 1,000,000,007로 나눈 나머지를 출력한다.
+
+ans = N!/K!(N-K)! % 1000000007
+*/
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int N, K;
+const long long MOD = 1000000007;
+long long power(long long base, long long exp){
+    long long res = 1;
+    base %= MOD;
+    while(exp > 0){
+        if(exp % 2 != 0) res = (res * base) % MOD;
+        base = (base * base) % MOD;
+        exp /= 2;
+    }
+    return res;
+}
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    cin >> N >> K;
+
+    // - 분자: N! % MOD -> factorial
+    vector<long long> fact(N + 1);
+    fact[0] = 1;
+    for(int i = 1; i <=N; ++i){
+        fact[i] = (fact[i-1] * i) % 1000000007;
+    }
+
+    long long den = fact[N];
+    long long num = (fact[K] * fact[N-K]) % MOD;
+
+    long long ans = (den * power(num, MOD - 2)) % MOD;
+
+    cout << ans;
+
+    return 0;
+}

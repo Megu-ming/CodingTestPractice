@@ -1,0 +1,73 @@
+/*
+문제
+N*M크기의 행렬 A와 M*K크기의 행렬 B가 주어졌을 때, 두 행렬을 곱하는 프로그램을 작성하시오.
+
+입력
+첫째 줄에 행렬 A의 크기 N 과 M이 주어진다. 
+둘째 줄부터 N개의 줄에 행렬 A의 원소 M개가 순서대로 주어진다. 
+그 다음 줄에는 행렬 B의 크기 M과 K가 주어진다. 
+이어서 M개의 줄에 행렬 B의 원소 K개가 차례대로 주어진다. 
+N과 M, 그리고 K는 100보다 작거나 같고, 행렬의 원소는 절댓값이 100보다 작거나 같은 정수이다.
+
+출력
+첫째 줄부터 N개의 줄에 행렬 A와 B를 곱한 행렬을 출력한다. 행렬의 각 원소는 공백으로 구분한다.
+
+N * M
+1 2    -1 -2 0
+3 4     0  0 3
+5 6
+
+0,0 열이면 A행렬의 0행과 B행렬의 0열의 각 원소들을 곱해서 더한다.
+*/
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int N, M, K;
+vector<vector<int>> A;
+vector<vector<int>> B;
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int row, col;
+    cin >> N >> M;
+    row = N;
+    A.resize(N);
+    for(int i = 0; i < N; ++i){
+        A[i].resize(M);
+        for(int j = 0; j < M; ++j){
+            cin >> A[i][j];
+        }
+    }
+
+    cin >> M >> K;
+    B.resize(M);
+    for(int i = 0; i < M; ++i){
+        B[i].resize(K);
+        for(int j = 0; j < K; ++j){
+            cin >> B[i][j];
+        }
+    }
+
+    vector<vector<int>> Mul(N, vector<int>(K));
+    for(int i = 0; i < N; ++i){
+        for(int j = 0; j < K; ++j){
+            for(int k = 0; k < M; ++k){
+                Mul[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    
+    for(int i = 0; i < N; ++i){
+        for(int j = 0; j < K; ++j){
+            cout << Mul[i][j] << " ";
+        }
+        cout << "\n";
+    }
+
+    return 0;
+}
